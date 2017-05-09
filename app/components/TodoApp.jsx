@@ -2,12 +2,15 @@ var React = require('react');
 
 var TodoList = require('TodoList');
 var AddTodo = require('AddTodo');
+var TodoSearch = require('TodoSearch');
 
 class TodoApp extends React.Component {
 
 	constructor(props) {
 		super(props);
 		this.state = {
+			showCompleted: false,
+			searchText: '',
 			todos: [
 				{
 					id: 1,
@@ -33,11 +36,19 @@ class TodoApp extends React.Component {
 		alert('new todo: ' + text);
 	}
 
+	handleSearch(showCompleted, searchText) {
+		this.setState({
+			showCompleted: showCompleted,
+			searchText: searchText.toLowerCase()
+		});
+	}
+
 	render() {
 		var {todos} = this.state;
 
 		return (
 			<div>
+				<TodoSearch onSearch={this.handleSearch}></TodoSearch>
 				<TodoList todos={todos}></TodoList>
 				<AddTodo onAddTodo={this.handleAddTodo}></AddTodo>
 			</div>
