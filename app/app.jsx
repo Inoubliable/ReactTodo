@@ -15,7 +15,7 @@ const muiTheme = getMuiTheme({
 
 ReactDOM.render(
 	<MuiThemeProvider muiTheme={muiTheme}>
-		<p>Boilerplate</p>
+		<TodoApp></TodoApp>
 	</MuiThemeProvider>,
 	document.getElementById('app')
 );
