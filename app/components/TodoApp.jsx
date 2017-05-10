@@ -4,28 +4,31 @@ var TodoList = require('TodoList');
 var AddTodo = require('AddTodo');
 var TodoSearch = require('TodoSearch');
 
+var uuid = require('node-uuid');
+
 class TodoApp extends React.Component {
 
 	constructor(props) {
 		super(props);
+		this.handleAddTodo = this.handleAddTodo.bind(this);
 		this.state = {
 			showCompleted: false,
 			searchText: '',
 			todos: [
 				{
-					id: 1,
+					id: uuid(),
 					text: 'Walk the dog'
 				},
 				{
-					id: 2,
+					id: uuid(),
 					text: 'Clean the yard'
 				},
 				{
-					id: 3,
+					id: uuid(),
 					text: 'Sweep the apartment'
 				},
 				{
-					id: 4,
+					id: uuid(),
 					text: 'Wash the dishes'
 				}
 			]
@@ -33,7 +36,14 @@ class TodoApp extends React.Component {
 	}
 
 	handleAddTodo(text) {
-		alert('new todo: ' + text);
+		this.setState({
+			todos: [...this.state.todos,
+				{
+					id: uuid(),
+					text: text
+				}
+			]
+		});
 	}
 
 	handleSearch(showCompleted, searchText) {
