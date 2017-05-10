@@ -1,4 +1,5 @@
 var React = require('react');
+import Checkbox from 'material-ui/Checkbox';
 
 class Todo extends React.Component {
 
@@ -7,11 +8,16 @@ class Todo extends React.Component {
 	}
 
 	render() {
-		var {id, text} = this.props;
+		var {id, text, completed} = this.props;
 
 		return (
-			<div>
-				{id}. {text}
+			<div onClick={() => {
+				this.props.onToggle(id);
+			}}>
+				<Checkbox
+					label={text}
+					checked={completed}
+				/>
 			</div>
 		)
 	}
