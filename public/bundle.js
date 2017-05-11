@@ -28201,6 +28201,33 @@ module.exports = {
 		} catch (e) {}
 
 		return $.isArray(todos) ? todos : [];
+	},
+	filterTodos: function filterTodos(todos, showCompleted, searchText) {
+		var filteredTodos = todos;
+
+		// Filter by showCompleted
+		filteredTodos = filteredTodos.filter(function (todo) {
+			return !todo.completed || showCompleted;
+		});
+
+		// Filter by searchText
+		filteredTodos = filteredTodos.filter(function (todo) {
+			var todoText = todo.text.toLowerCase();
+			return todo.searchText || todo.searchText == '' || todoText.indexOf(searchText) != -1;
+		});
+
+		// Sort todos with non-completed first
+		filteredTodos.sort(function (a, b) {
+			if (!a.completed && b.completed) {
+				return -1;
+			} else if (a.completed && !b.completed) {
+				return 1;
+			} else {
+				return 0;
+			}
+		});
+
+		return filteredTodos;
 	}
 };
 
@@ -28306,6 +28333,7 @@ var TodoApp = function (_React$Component) {
 		var _this = _possibleConstructorReturn(this, (TodoApp.__proto__ || Object.getPrototypeOf(TodoApp)).call(this, props));
 
 		_this.handleAddTodo = _this.handleAddTodo.bind(_this);
+		_this.handleSearch = _this.handleSearch.bind(_this);
 		_this.handleToggle = _this.handleToggle.bind(_this);
 		_this.state = {
 			showCompleted: false,
@@ -28356,14 +28384,18 @@ var TodoApp = function (_React$Component) {
 	}, {
 		key: 'render',
 		value: function render() {
-			var todos = this.state.todos;
+			var _state = this.state,
+			    todos = _state.todos,
+			    showCompleted = _state.showCompleted,
+			    searchText = _state.searchText;
 
+			var filteredTodos = TodoAPI.filterTodos(todos, showCompleted, searchText);
 
 			return React.createElement(
 				'div',
 				null,
 				React.createElement(TodoSearch, { onSearch: this.handleSearch }),
-				React.createElement(TodoList, { todos: todos, onToggle: this.handleToggle }),
+				React.createElement(TodoList, { todos: filteredTodos, onToggle: this.handleToggle }),
 				React.createElement(AddTodo, { onAddTodo: this.handleAddTodo })
 			);
 		}
@@ -28460,13 +28492,16 @@ var TodoSearch = function (_React$Component) {
 	function TodoSearch(props) {
 		_classCallCheck(this, TodoSearch);
 
-		return _possibleConstructorReturn(this, (TodoSearch.__proto__ || Object.getPrototypeOf(TodoSearch)).call(this, props));
+		var _this = _possibleConstructorReturn(this, (TodoSearch.__proto__ || Object.getPrototypeOf(TodoSearch)).call(this, props));
+
+		_this.handleSearch = _this.handleSearch.bind(_this);
+		return _this;
 	}
 
 	_createClass(TodoSearch, [{
 		key: 'handleSearch',
 		value: function handleSearch() {
-			var showCompleted = this.refs.showCompleted.checked;
+			var showCompleted = !this.refs.showCompleted.state.switched;
 			var searchText = this.refs.searchText.value;
 
 			this.props.onSearch(showCompleted, searchText);
@@ -28479,12 +28514,11 @@ var TodoSearch = function (_React$Component) {
 
 			return React.createElement(
 				'div',
-				null,
-				React.createElement('input', { type: 'search', placeholder: 'Search todos', ref: 'searchText', onChange: this.handleSearch }),
+				{ onChange: this.handleSearch },
+				React.createElement('input', { type: 'search', placeholder: 'Search todos', ref: 'searchText' }),
 				React.createElement(_Checkbox2.default, {
 					label: 'Show completed todos',
-					ref: 'showCompleted',
-					onChange: this.handleSearch
+					ref: 'showCompleted'
 				})
 			);
 		}
