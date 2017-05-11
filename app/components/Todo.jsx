@@ -20,7 +20,7 @@ class Todo extends React.Component {
 				timestamp = completedAt;
 			}
 
-			return message + moment.unix(timestamp).format('MMM Do YYYY @ H:mm a');
+			return message + moment.unix(timestamp).format('MMM Do YYYY H:mm');
 		};
 
 		return (
