@@ -1,0 +1,11 @@
+.todo-text {
+  display: inline; }
+
+.todo-timestamp {
+  display: block;
+  color: #aaa; }
+
+.todo-completed {
+  color: #aaa; }
+
+/*# sourceMappingURL=_Todo.css.map */

@@ -1,4 +1,6 @@
 var React = require('react');
+import TextField from 'material-ui/TextField';
+import RaisedButton from 'material-ui/RaisedButton';
 
 var Todo = require('Todo');
 
@@ -12,7 +14,7 @@ class AddTodo extends React.Component {
 	handleSubmit(e) {
 		e.preventDefault();
 
-		var todoText = this.refs.todoText.value;
+		var todoText = this.refs.todoText.input.value;
 		if(todoText && todoText != '') {
 			this.refs.todoText.value = '';
 			this.props.onAddTodo(todoText);
@@ -27,8 +29,18 @@ class AddTodo extends React.Component {
 		return (
 			<div>
 				<form onSubmit={this.handleSubmit}>
-					<input type="text" placeholder="What do you need to do?" ref="todoText"/>
-					<input type="submit" value="Add Todo"/>
+					<TextField
+						hintText="What do you need to do?"
+						ref="todoText"
+						fullWidth={true}
+					/>
+					<br/>
+					<RaisedButton
+						type="submit" 
+						label="Add Todo" 
+						primary={true} 
+						fullWidth={true} 
+					/>
 				</form>
 			</div>
 		)

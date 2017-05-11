@@ -1,12 +1,29 @@
 var React = require('react');
 var uuid = require('node-uuid');
 var moment = require('moment');
+import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
+import Paper from 'material-ui/Paper';
+import Divider from 'material-ui/Divider';
 
 var TodoList = require('TodoList');
 var AddTodo = require('AddTodo');
 var TodoSearch = require('TodoSearch');
 var TodoAPI = require('TodoAPI');
 
+const style = {
+	searchPaper: {
+		marginBottom: 20,
+		padding: 10
+	},
+	mainCard: {
+		width: 600,
+		margin: 'auto'
+	},
+	divider: {
+		marginTop: 20,
+		marginBottom: 20
+	},
+};
 
 class TodoApp extends React.Component {
 
@@ -67,9 +84,16 @@ class TodoApp extends React.Component {
 
 		return (
 			<div>
-				<TodoSearch onSearch={this.handleSearch}></TodoSearch>
-				<TodoList todos={filteredTodos} onToggle={this.handleToggle}></TodoList>
-				<AddTodo onAddTodo={this.handleAddTodo}></AddTodo>
+				<Card zDepth={2} style={style.mainCard}>
+					<CardTitle title="Todo App" titleStyle={{textAlign: 'center'}}/>
+					<CardText>
+						<TodoSearch onSearch={this.handleSearch}></TodoSearch>
+						<Divider style={style.divider}/>
+						<TodoList todos={filteredTodos} onToggle={this.handleToggle}></TodoList>
+						<Divider style={style.divider}/>
+						<AddTodo onAddTodo={this.handleAddTodo}></AddTodo>
+					</CardText>
+				</Card>
 			</div>
 		)
 	}

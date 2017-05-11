@@ -22,16 +22,24 @@ class Todo extends React.Component {
 
 			return message + moment.unix(timestamp).format('MMM Do YYYY H:mm');
 		};
+		var todoClass = '';
+		if(completed) {
+			todoClass = 'todo-completed';
+		}
 
 		return (
 			<div onClick={() => {
 				this.props.onToggle(id);
 			}}>
 				<Checkbox
-					label={text}
+					label={
+						<div className={todoClass}>
+							<p className="todo-text">{text}</p>
+							<small className="todo-timestamp">{renderDate()}</small>
+						</div>
+					}
 					checked={completed}
 				/>
-				<p>{renderDate()}</p>
 			</div>
 		)
 	}

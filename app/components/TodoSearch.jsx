@@ -1,5 +1,6 @@
 var React = require('react');
 import Checkbox from 'material-ui/Checkbox';
+import TextField from 'material-ui/TextField';
 
 class TodoSearch extends React.Component {
 
@@ -10,7 +11,7 @@ class TodoSearch extends React.Component {
 
 	handleSearch() {
 		var showCompleted = !this.refs.showCompleted.state.switched;
-		var searchText = this.refs.searchText.value;
+		var searchText = this.refs.searchText.input.value;
 
 		this.props.onSearch(showCompleted, searchText);
 	}
@@ -20,7 +21,11 @@ class TodoSearch extends React.Component {
 
 		return (
 			<div onChange={this.handleSearch}>
-				<input type="search" placeholder="Search todos" ref="searchText"/>
+				<TextField
+					hintText="Search todos"
+					ref="searchText"
+					fullWidth={true}
+				/>
 				<Checkbox
 					label="Show completed todos"
 					ref="showCompleted"

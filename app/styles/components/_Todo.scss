@@ -1,0 +1,13 @@
+.todo-text {
+	display: inline;
+}
+
+.todo-timestamp {
+	display: block;
+	color: $light-gray;
+}
+
+.todo-completed {
+	color: $light-gray;
+	text-decoration: line-through;
+}

@@ -1,3 +1,15 @@
+h1, h2, p {
+  font-family: sans-serif; }
 
+.todo-text {
+  display: inline; }
+
+.todo-timestamp {
+  display: block;
+  color: #aaa; }
+
+.no-todos-msg {
+  color: #ccc;
+  margin: auto; }
 
 /*# sourceMappingURL=app.css.map */
