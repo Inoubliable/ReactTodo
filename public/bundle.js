@@ -42018,10 +42018,6 @@ var TodoApp = __webpack_require__(405);
 var actions = __webpack_require__(402);
 var store = __webpack_require__(409).configure();
 
-store.dispatch(actions.addTodo('Clean the yard'));
-store.dispatch(actions.setSearchText('yard'));
-store.dispatch(actions.toggleShowCompleted());
-
 // app css
 __webpack_require__(762);
 
@@ -43092,6 +43088,7 @@ module.exports = {
 	},
 	filterTodos: function filterTodos(todos, showCompleted, searchText) {
 		var filteredTodos = todos;
+		console.log(showCompleted);
 
 		// Filter by showCompleted
 		filteredTodos = filteredTodos.filter(function (todo) {
@@ -43180,7 +43177,7 @@ var AddTodo = exports.AddTodo = function (_React$Component) {
 
 			var todoText = this.refs.todoText.input.value;
 			if (todoText && todoText != '') {
-				this.refs.todoText.value = '';
+				this.refs.todoText.input.value = '';
 				dispatch(actions.addTodo(todoText));
 			} else {
 				this.refs.todoText.focus();
@@ -43244,6 +43241,10 @@ var _AddTodo = __webpack_require__(404);
 
 var _AddTodo2 = _interopRequireDefault(_AddTodo);
 
+var _TodoSearch = __webpack_require__(407);
+
+var _TodoSearch2 = _interopRequireDefault(_TodoSearch);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
@@ -43258,7 +43259,6 @@ var React = __webpack_require__(2);
 var uuid = __webpack_require__(611);
 var moment = __webpack_require__(1);
 
-var TodoSearch = __webpack_require__(407);
 var TodoAPI = __webpack_require__(403);
 
 var style = {
@@ -43340,7 +43340,7 @@ var TodoApp = function (_React$Component) {
 					React.createElement(
 						_Card.CardText,
 						null,
-						React.createElement(TodoSearch, { onSearch: this.handleSearch }),
+						React.createElement(_TodoSearch2.default, { onSearch: this.handleSearch }),
 						React.createElement(_Divider2.default, { style: style.divider }),
 						React.createElement(_TodoList2.default, null),
 						React.createElement(_Divider2.default, { style: style.divider }),
@@ -43389,6 +43389,8 @@ var React = __webpack_require__(2);
 var _require = __webpack_require__(789),
     connect = _require.connect;
 
+var TodoAPI = __webpack_require__(403);
+
 var TodoList = exports.TodoList = function (_React$Component) {
 	_inherits(TodoList, _React$Component);
 
@@ -43401,7 +43403,10 @@ var TodoList = exports.TodoList = function (_React$Component) {
 	_createClass(TodoList, [{
 		key: 'render',
 		value: function render() {
-			var todos = this.props.todos;
+			var _props = this.props,
+			    todos = _props.todos,
+			    showCompleted = _props.showCompleted,
+			    searchText = _props.searchText;
 
 
 			var renderTodos = function renderTodos() {
@@ -43412,7 +43417,7 @@ var TodoList = exports.TodoList = function (_React$Component) {
 						'Nothing to do'
 					);
 				};
-				return todos.map(function (todo) {
+				return TodoAPI.filterTodos(todos, showCompleted, searchText).map(function (todo) {
 					return React.createElement(
 						_List.ListItem,
 						{ key: todo.id },
@@ -43433,9 +43438,7 @@ var TodoList = exports.TodoList = function (_React$Component) {
 }(React.Component);
 
 exports.default = connect(function (state) {
-	return {
-		todos: state.todos
-	};
+	return state;
 })(TodoList);
 
 /***/ }),
@@ -43444,6 +43447,11 @@ exports.default = connect(function (state) {
 
 "use strict";
 
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.TodoSearch = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -43465,43 +43473,51 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 var React = __webpack_require__(2);
 
-var TodoSearch = function (_React$Component) {
+var _require = __webpack_require__(789),
+    connect = _require.connect;
+
+var actions = __webpack_require__(402);
+
+var TodoSearch = exports.TodoSearch = function (_React$Component) {
 	_inherits(TodoSearch, _React$Component);
 
 	function TodoSearch(props) {
 		_classCallCheck(this, TodoSearch);
 
-		var _this = _possibleConstructorReturn(this, (TodoSearch.__proto__ || Object.getPrototypeOf(TodoSearch)).call(this, props));
-
-		_this.handleSearch = _this.handleSearch.bind(_this);
-		return _this;
+		return _possibleConstructorReturn(this, (TodoSearch.__proto__ || Object.getPrototypeOf(TodoSearch)).call(this, props));
 	}
 
 	_createClass(TodoSearch, [{
-		key: 'handleSearch',
-		value: function handleSearch() {
-			var showCompleted = !this.refs.showCompleted.state.switched;
-			var searchText = this.refs.searchText.input.value;
-
-			this.props.onSearch(showCompleted, searchText);
-		}
-	}, {
 		key: 'render',
 		value: function render() {
-			var todos = this.props.todos;
+			var _this2 = this;
+
+			var _props = this.props,
+			    dispatch = _props.dispatch,
+			    showCompleted = _props.showCompleted,
+			    searchText = _props.searchText;
 
 
 			return React.createElement(
 				'div',
-				{ onChange: this.handleSearch },
+				null,
 				React.createElement(_TextField2.default, {
 					hintText: 'Search todos',
 					ref: 'searchText',
-					fullWidth: true
+					fullWidth: true,
+					value: searchText,
+					onChange: function onChange() {
+						var searchText = _this2.refs.searchText.input.value;
+						dispatch(actions.setSearchText(searchText));
+					}
 				}),
 				React.createElement(_Checkbox2.default, {
 					label: 'Show completed todos',
-					ref: 'showCompleted'
+					ref: 'showCompleted',
+					checked: showCompleted,
+					onClick: function onClick() {
+						dispatch(actions.toggleShowCompleted());
+					}
 				})
 			);
 		}
@@ -43510,7 +43526,12 @@ var TodoSearch = function (_React$Component) {
 	return TodoSearch;
 }(React.Component);
 
-module.exports = TodoSearch;
+exports.default = connect(function (state) {
+	return {
+		showCompleted: state.showCompleted,
+		searchText: state.searchText
+	};
+})(TodoSearch);
 
 /***/ }),
 /* 408 */

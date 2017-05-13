@@ -1,34 +1,37 @@
 var React = require('react');
+var {connect} = require('react-redux');
+var actions = require('actions');
 import Checkbox from 'material-ui/Checkbox';
 import TextField from 'material-ui/TextField';
 
-class TodoSearch extends React.Component {
+export class TodoSearch extends React.Component {
 
 	constructor(props) {
 		super(props);
-		this.handleSearch = this.handleSearch.bind(this);
-	}
-
-	handleSearch() {
-		var showCompleted = !this.refs.showCompleted.state.switched;
-		var searchText = this.refs.searchText.input.value;
-
-		this.props.onSearch(showCompleted, searchText);
 	}
 
 	render() {
-		var {todos} = this.props;
+		var {dispatch, showCompleted, searchText} = this.props;
 
 		return (
-			<div onChange={this.handleSearch}>
+			<div>
 				<TextField
 					hintText="Search todos"
 					ref="searchText"
 					fullWidth={true}
+					value={searchText}
+					onChange={() => {
+						var searchText = this.refs.searchText.input.value;
+						dispatch(actions.setSearchText(searchText));
+					}}
 				/>
 				<Checkbox
 					label="Show completed todos"
 					ref="showCompleted"
+					checked={showCompleted}
+					onClick={() => {
+						dispatch(actions.toggleShowCompleted());
+					}}
 				/>
 			</div>
 		)
@@ -36,4 +39,11 @@ class TodoSearch extends React.Component {
 
 }
 
-module.exports = TodoSearch;
+export default connect(
+	(state) => {
+		return {
+			showCompleted: state.showCompleted,
+			searchText: state.searchText
+		};
+	}
+)(TodoSearch);

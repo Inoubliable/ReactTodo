@@ -3,6 +3,7 @@ var {connect} = require('react-redux');
 import {List, ListItem} from 'material-ui/List';
 
 import Todo from 'Todo';
+var TodoAPI = require('TodoAPI');
 
 export class TodoList extends React.Component {
 
@@ -11,7 +12,7 @@ export class TodoList extends React.Component {
 	}
 
 	render() {
-		var {todos} = this.props;
+		var {todos, showCompleted, searchText} = this.props;
 
 		var renderTodos = () => {
 			if(todos.length == 0) {
@@ -19,7 +20,7 @@ export class TodoList extends React.Component {
 					<p className="no-todos-msg">Nothing to do</p>
 				);
 			};
-			return todos.map((todo) => {
+			return TodoAPI.filterTodos(todos, showCompleted, searchText).map((todo) => {
 				return (
 					<ListItem key={todo.id}>
 						<Todo {...todo}></Todo>
@@ -39,8 +40,6 @@ export class TodoList extends React.Component {
 
 export default connect(
 	(state) => {
-		return {
-			todos: state.todos
-		};
+		return state;
 	}
 )(TodoList);

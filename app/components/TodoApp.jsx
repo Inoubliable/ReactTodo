@@ -7,7 +7,7 @@ import Divider from 'material-ui/Divider';
 
 import TodoList from 'TodoList';
 import AddTodo from 'AddTodo';
-var TodoSearch = require('TodoSearch');
+import TodoSearch from 'TodoSearch';
 var TodoAPI = require('TodoAPI');
 
 const style = {
