@@ -1,9 +1,10 @@
 var React = require('react');
+var {connect} = require('react-redux');
 import {List, ListItem} from 'material-ui/List';
 
-var Todo = require('Todo');
+import Todo from 'Todo';
 
-class TodoList extends React.Component {
+export class TodoList extends React.Component {
 
 	constructor(props) {
 		super(props);
@@ -21,7 +22,7 @@ class TodoList extends React.Component {
 			return todos.map((todo) => {
 				return (
 					<ListItem key={todo.id}>
-						<Todo {...todo} onToggle={this.props.onToggle}></Todo>
+						<Todo {...todo}></Todo>
 					</ListItem>
 				)
 			});
@@ -36,4 +37,10 @@ class TodoList extends React.Component {
 
 }
 
-module.exports = TodoList;
+export default connect(
+	(state) => {
+		return {
+			todos: state.todos
+		};
+	}
+)(TodoList);

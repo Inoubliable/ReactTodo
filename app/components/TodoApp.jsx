@@ -5,8 +5,8 @@ import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'mat
 import Paper from 'material-ui/Paper';
 import Divider from 'material-ui/Divider';
 
-var TodoList = require('TodoList');
-var AddTodo = require('AddTodo');
+import TodoList from 'TodoList';
+import AddTodo from 'AddTodo';
 var TodoSearch = require('TodoSearch');
 var TodoAPI = require('TodoAPI');
 
@@ -31,7 +31,6 @@ class TodoApp extends React.Component {
 		super(props);
 		this.handleAddTodo = this.handleAddTodo.bind(this);
 		this.handleSearch = this.handleSearch.bind(this);
-		this.handleToggle = this.handleToggle.bind(this);
 		this.state = {
 			showCompleted: false,
 			searchText: '',
@@ -64,20 +63,6 @@ class TodoApp extends React.Component {
 		});
 	}
 
-	handleToggle(id) {
-		var updatedTodos = this.state.todos.map((todo) => {
-			if(todo.id == id) {
-				todo.completed = !todo.completed;
-				todo.completedAt = todo.completed ? moment().unix() : undefined;
-			}
-			return todo;
-		});
-
-		this.setState({
-			todos: updatedTodos
-		});
-	}
-
 	render() {
 		var {todos, showCompleted, searchText} = this.state;
 		var filteredTodos = TodoAPI.filterTodos(todos, showCompleted, searchText);
@@ -89,7 +74,7 @@ class TodoApp extends React.Component {
 					<CardText>
 						<TodoSearch onSearch={this.handleSearch}></TodoSearch>
 						<Divider style={style.divider}/>
-						<TodoList todos={filteredTodos} onToggle={this.handleToggle}></TodoList>
+						<TodoList></TodoList>
 						<Divider style={style.divider}/>
 						<AddTodo onAddTodo={this.handleAddTodo}></AddTodo>
 					</CardText>

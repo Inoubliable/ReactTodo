@@ -1,10 +1,12 @@
 var React = require('react');
+var {connect} = require('react-redux');
+var actions = require('actions');
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 
 var Todo = require('Todo');
 
-class AddTodo extends React.Component {
+export class AddTodo extends React.Component {
 
 	constructor(props) {
 		super(props);
@@ -14,18 +16,17 @@ class AddTodo extends React.Component {
 	handleSubmit(e) {
 		e.preventDefault();
 
+		var {dispatch} = this.props;
 		var todoText = this.refs.todoText.input.value;
 		if(todoText && todoText != '') {
 			this.refs.todoText.value = '';
-			this.props.onAddTodo(todoText);
+			dispatch(actions.addTodo(todoText));
 		} else {
 			this.refs.todoText.focus();
 		}
 	}
 
 	render() {
-		var {todos} = this.props;
-
 		return (
 			<div>
 				<form onSubmit={this.handleSubmit}>
@@ -48,4 +49,4 @@ class AddTodo extends React.Component {
 
 }
 
-module.exports = AddTodo;
+export default connect()(AddTodo);

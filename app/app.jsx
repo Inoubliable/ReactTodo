@@ -1,6 +1,6 @@
 var React = require('react');
 var ReactDOM = require('react-dom');
-var {Route, Router, IndexRoute, hashHistory} = require('react-router');
+var {Provider} = require('react-redux');
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 
@@ -22,7 +22,9 @@ const muiTheme = getMuiTheme({
 
 ReactDOM.render(
 	<MuiThemeProvider muiTheme={muiTheme}>
-		<TodoApp></TodoApp>
+		<Provider store={store}>
+			<TodoApp></TodoApp>
+		</Provider>
 	</MuiThemeProvider>,
 	document.getElementById('app')
 );

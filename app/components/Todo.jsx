@@ -1,16 +1,18 @@
 var React = require('react');
 var moment = require('moment');
+var {connect} = require('react-redux');
+var actions = require('actions');
 
 import Checkbox from 'material-ui/Checkbox';
 
-class Todo extends React.Component {
+export class Todo extends React.Component {
 
 	constructor(props) {
 		super(props);
 	}
 
 	render() {
-		var {id, text, completed, createdAt, completedAt} = this.props;
+		var {id, text, completed, createdAt, completedAt, dispatch} = this.props;
 		var renderDate = () => {
 			var message = 'Created ';
 			var timestamp = createdAt;
@@ -29,7 +31,7 @@ class Todo extends React.Component {
 
 		return (
 			<div onClick={() => {
-				this.props.onToggle(id);
+				dispatch(actions.toggleTodo(id));
 			}}>
 				<Checkbox
 					label={
@@ -46,4 +48,4 @@ class Todo extends React.Component {
 
 }
 
-module.exports = Todo;
+export default connect()(Todo);

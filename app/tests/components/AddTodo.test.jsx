@@ -5,29 +5,35 @@ var TestUtils = require('react-addons-test-utils');
 var $ = require('jQuery');
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
-var AddTodo = require('AddTodo');
+var {AddTodo} = require('AddTodo');
 
 describe('AddTodo', () => {
 	it('should exist', () => {
 		expect(AddTodo).toExist();
 	});
 
-	it('should call onAddTodo prop when valid input', () => {
+	it('should dispatch ADD_TODO when valid todo text', () => {
 		var todoText = 'something';
+		var action = {
+			type: 'ADD_TODO',
+			text: todoText
+		};
 		var spy = expect.createSpy();
-		var addTodo = TestUtils.renderIntoDocument(<AddTodo onAddTodo={spy}/>);
+		var themeProvider = TestUtils.renderIntoDocument(<MuiThemeProvider><AddTodo dispatch={spy}/></MuiThemeProvider>);
+		var addTodo = TestUtils.scryRenderedComponentsWithType(themeProvider, AddTodo)[0];
 		var $el = $(ReactDOM.findDOMNode(addTodo));
 
 		addTodo.refs.todoText.value = todoText;
 		TestUtils.Simulate.submit($el.find('form')[0]);
 
-		expect(spy).toHaveBeenCalledWith(todoText);
+		expect(spy).toHaveBeenCalledWith(action);
 	});
 
-	it('should not call onAddTodo prop when invalid input', () => {
+	it('should not dispatch ADD_TODO when invalid todo text', () => {
 		var todoText = '';
 		var spy = expect.createSpy();
-		var addTodo = TestUtils.renderIntoDocument(<AddTodo onAddTodo={spy}/>);
+		var themeProvider = TestUtils.renderIntoDocument(<MuiThemeProvider><AddTodo dispatch={spy}/></MuiThemeProvider>);
+		var addTodo = TestUtils.scryRenderedComponentsWithType(themeProvider, AddTodo)[0];
 		var $el = $(ReactDOM.findDOMNode(addTodo));
 
 		addTodo.refs.todoText.value = todoText;
