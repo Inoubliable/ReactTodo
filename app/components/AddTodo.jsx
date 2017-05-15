@@ -20,7 +20,7 @@ export class AddTodo extends React.Component {
 		var todoText = this.refs.todoText.input.value;
 		if(todoText && todoText != '') {
 			this.refs.todoText.input.value = '';
-			dispatch(actions.addTodo(todoText));
+			dispatch(actions.startAddTodo(todoText));
 		} else {
 			this.refs.todoText.focus();
 		}
