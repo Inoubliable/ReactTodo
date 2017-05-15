@@ -31,7 +31,7 @@ export class Todo extends React.Component {
 
 		return (
 			<div onClick={() => {
-				dispatch(actions.toggleTodo(id));
+				dispatch(actions.startToggleTodo(id, !completed));
 			}}>
 				<Checkbox
 					label={
