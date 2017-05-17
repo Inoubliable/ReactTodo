@@ -56,7 +56,6 @@ export var startAddTodos = () => {
 					...todos[key]
 				});
 			});
-			console.log(parsedTodos);
 			dispatch(addTodos(parsedTodos));
 		});
 	};
