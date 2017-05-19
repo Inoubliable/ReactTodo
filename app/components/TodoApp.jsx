@@ -4,6 +4,7 @@ var moment = require('moment');
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 import Paper from 'material-ui/Paper';
 import Divider from 'material-ui/Divider';
+import FlatButton from 'material-ui/FlatButton';
 
 import TodoList from 'TodoList';
 import AddTodo from 'AddTodo';
@@ -33,6 +34,7 @@ class TodoApp extends React.Component {
 	render() {
 		return (
 			<div>
+				<FlatButton href="#" label="Logout" primary={true} className="logout-btn"/>
 				<Card zDepth={2} style={style.mainCard}>
 					<CardTitle title="Todo App" titleStyle={{textAlign: 'center'}}/>
 					<CardText>

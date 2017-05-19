@@ -1,6 +1,9 @@
 h1, h2, p {
   font-family: sans-serif; }
 
+.logout-btn {
+  float: right; }
+
 .todo-text {
   display: inline; }
 
@@ -8,8 +11,17 @@ h1, h2, p {
   display: block;
   color: #aaa; }
 
+.todo-completed {
+  color: #aaa;
+  text-decoration: line-through; }
+
 .no-todos-msg {
-  color: #ccc;
-  margin: auto; }
+  color: #aaa;
+  text-align: center;
+  margin-top: 40px;
+  margin-bottom: 40px; }
+
+.main-title {
+  text-align: center; }
 
 /*# sourceMappingURL=app.css.map */

@@ -4,9 +4,8 @@
   "description": "React boilerplate",
   "main": "index.js",
   "scripts": {
-    "test": "SET NODE_ENV=test && karma start",
-    "build": "webpack",
-    "start": "npm run build && node server.js"
+    "test": "karma start",
+    "start": "node server.js"
   },
   "author": "Tim Janzelj",
   "license": "MIT",
